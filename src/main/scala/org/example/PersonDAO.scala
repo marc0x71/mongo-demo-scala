@@ -1,17 +1,26 @@
 package org.example
 package org.example
 
-import org.example.Model.Person
+import org.example.Model.{Indirizzo, Person}
 
 import reactivemongo.api.MongoConnection.ParsedURI
 import reactivemongo.api.bson.collection.BSONCollection
-import reactivemongo.api.bson.document
+import reactivemongo.api.bson.{BSONDocumentReader, BSONDocumentWriter, Macros, document}
 import reactivemongo.api.{AsyncDriver, Cursor, DB, MongoConnection}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object PersonDAO {
+
+  implicit def indirizzoReader: BSONDocumentReader[Indirizzo] = Macros.reader[Indirizzo]
+
+  implicit def personReader: BSONDocumentReader[Person] = Macros.reader[Person]
+
+  implicit def indirizzoWriter: BSONDocumentWriter[Indirizzo] = Macros.writer[Indirizzo]
+
+  implicit def personWriter: BSONDocumentWriter[Person] = Macros.writer[Person]
+
 
   val mongoUri = "mongodb://localhost:27017"
   val driver: AsyncDriver = AsyncDriver()
